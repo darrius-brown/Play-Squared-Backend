@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'play_squared',
     'rest_framework',
+    'corsheaders',
 
 ]
 REST_FRAMEWORK = {
@@ -51,12 +52,24 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    'http://localhost:3000',
+]
+
 
 ROOT_URLCONF = 'play_squared_django.urls'
 
@@ -85,9 +98,9 @@ WSGI_APPLICATION = 'play_squared_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'play_squared',
-        'USER': 'play_squareduser',
-        'PASSWORD': 'play_squared',
+        'NAME': 'playsquared',
+        'USER': 'playsquareduser',
+        'PASSWORD': 'playsquared',
         'HOST': 'localhost'
     }
 }

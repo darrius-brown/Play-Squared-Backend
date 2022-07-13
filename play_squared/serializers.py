@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GameRecommendation, Score
+from .models import GameRecommendation, Score, Game
 
 class GameRecommendationSerializer(serializers.HyperlinkedModelSerializer):
     # game_recommendation = serializers.HyperlinkedIdentityField(
@@ -12,11 +12,21 @@ class GameRecommendationSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('pk', 'user', 'game_name', 'description' )
     
 class ScoreSerializer(serializers.HyperlinkedModelSerializer):
-    # score = serializers.HyperlinkedIdentityField(
-    #     view_name='score_detail',
+    game = serializers.HyperlinkedRelatedField(
+        view_name='game_detail',
+        many=False,
+        read_only=True
+    )
+    class Meta:
+        model = Score
+        fields = ('game','user', 'amount', 'date')
+
+class GameSerializer(serializers.HyperlinkedModelSerializer):
+    # game = serializers.HyperlinkedIdentityField(
+    #     view_name='tail',
     #     many=True,
     #     read_only=True
     # )
     class Meta:
-        model = Score
-        fields = ('user', 'game_name', 'amount', 'date')
+        model = Game
+        fields = [('name')]
