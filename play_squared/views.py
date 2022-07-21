@@ -1,16 +1,41 @@
 from .models import GameRecommendation, Score, Game
-from rest_framework import generics
+from rest_framework import generics, permissions
+# from rest_framework.permissions import AllowAny
+from django.http import JsonResponse, HttpResponse
 from .serializers import GameRecommendationSerializer, ScoreSerializer, GameSerializer
-
-# Create your views here.
+#get
+def listGameRecommendations(request):
+    GameRecommendations = GameRecommendation.objects.all().values()
+    GameRecommendation_list = list(GameRecommendations)
+    return JsonResponse(GameRecommendation_list, safe=False)
+#get/create
 class GameRecommendationList(generics.ListCreateAPIView):
     queryset = GameRecommendation.objects.all()
     serializer_class = GameRecommendationSerializer
-    
 
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def post(self, request, *args, **kwargs):
+        request.data['user_string'] = request.user.username
+        return super().post(request, *args, **kwargs)
+#get detail
 class GameRecommendationDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.AllowAny]
+
     queryset = GameRecommendation.objects.all()
     serializer_class = GameRecommendationSerializer
+
+        
+
+class GameRecommendationUpdateProtected(generics.UpdateAPIView):
+    serializer_class = GameRecommendationSerializer
+    queryset  = GameRecommendation.objects.all()
+
+    # permission_classes = [permissions.IsAuthenticated]
+
+    # def put(self, request, *args, **kwargs):
+    #     request.data['user_string'] = request.user.username
+    #     return super().put(request, *args, **kwargs)
 
 class ScoreList(generics.ListCreateAPIView):
     queryset = Score.objects.all()
