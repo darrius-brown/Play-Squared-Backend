@@ -1,0 +1,7 @@
+curl \
+  -X GET \
+  -H "Content-Type: application/json" \
+  -H "Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU4NDU0MDIzLCJpYXQiOjE2NTg0NTM3MjMsImp0aSI6ImVmNDY5NTQ1MDMyMDRjOTg5ZTAzMjdiNzc5ZWNhZmUxIiwidXNlcl9pZCI6MX0.Dz8aUb2k2NfbgzObUmTMNpuJMY4RVV8uR8eiXC1Tz5I" \
+  http://localhost:8000/gamerecs/
+
+  curl   -X POST   -H "Content-Type: application/json"   -d '{"username":"admin", "password":"admin"}'   http://localhost:8000/api/token/

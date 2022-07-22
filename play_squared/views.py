@@ -13,19 +13,17 @@ class GameRecommendationList(generics.ListCreateAPIView):
     queryset = GameRecommendation.objects.all()
     serializer_class = GameRecommendationSerializer
 
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         request.data['user_string'] = request.user.username
         return super().post(request, *args, **kwargs)
-#get detail
+
+#get detail/ edit detail, destroy detail
 class GameRecommendationDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
-
     queryset = GameRecommendation.objects.all()
     serializer_class = GameRecommendationSerializer
-
-        
 
 class GameRecommendationUpdateProtected(generics.UpdateAPIView):
     serializer_class = GameRecommendationSerializer
