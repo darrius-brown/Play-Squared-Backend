@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'play_squared',
     'rest_framework',
     'corsheaders',
+    'djoser',
+
 
 ]
 REST_FRAMEWORK = {

@@ -7,8 +7,8 @@ urlpatterns = [
     path('gamerecs/', views.GameRecommendationList.as_view(), name='gamerecommendation_read'),
     path('gamerecs/create', views.GameRecommendationList.as_view(), name='gamerecommendation_create'),
     path('gamerecs/<int:pk>', views.GameRecommendationDetail.as_view(), name='gamerecommendation_detail'),
-    # path('gamerecs/<int:pk>/', views.GameRecommendationUpdateProtected.as_view(), name='gamerecommendation_update'),
-
+    path('mock_login', views.mock_login),
+    path('mock_signup', views.mock_signup),
     path('score/', views.ScoreList.as_view(), name='score_list'),
     path('score/<int:pk>/', views.ScoreDetail.as_view(), name='score_detail'),
     path('game/', views.GameList.as_view(), name='game_list'),

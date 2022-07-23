@@ -29,12 +29,6 @@ class GameRecommendationUpdateProtected(generics.UpdateAPIView):
     serializer_class = GameRecommendationSerializer
     queryset  = GameRecommendation.objects.all()
 
-    # permission_classes = [permissions.IsAuthenticated]
-
-    # def put(self, request, *args, **kwargs):
-    #     request.data['user_string'] = request.user.username
-    #     return super().put(request, *args, **kwargs)
-
 class ScoreList(generics.ListCreateAPIView):
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
@@ -50,3 +44,9 @@ class GameList(generics.ListCreateAPIView):
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+
+def mock_login(request):
+    return JsonResponse({'loggedIn':True, 'username': 'mock_user'})
+
+def mock_signup(request):
+    return JsonResponse({'loggedIn':True, 'username': 'mock_user'})    
