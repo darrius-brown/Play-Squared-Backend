@@ -19,31 +19,43 @@ class GameRecommendationList(generics.ListCreateAPIView):
         request.data['user_string'] = request.user.username
         return super().post(request, *args, **kwargs)
 
+class ScoreList(generics.ListCreateAPIView):
+    queryset = Score.objects.all()
+    serializer_class = ScoreSerializer
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        request.data['user_string'] = request.user.username
+        return super().post(request, *args, **kwargs)
+
 #get detail/ edit detail, destroy detail
 class GameRecommendationDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
     queryset = GameRecommendation.objects.all()
     serializer_class = GameRecommendationSerializer
 
+    permission_classes = [permissions.IsAuthenticated]
+
 class GameRecommendationUpdateProtected(generics.UpdateAPIView):
     serializer_class = GameRecommendationSerializer
     queryset  = GameRecommendation.objects.all()
 
-class ScoreList(generics.ListCreateAPIView):
-    queryset = Score.objects.all()
-    serializer_class = ScoreSerializer
+# class ScoreList(generics.ListCreateAPIView):
+#     queryset = Score.objects.all()
+#     serializer_class = ScoreSerializer
 
-class ScoreDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Score.objects.all()
-    serializer_class = ScoreSerializer
+# class ScoreDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Score.objects.all()
+#     serializer_class = ScoreSerializer
 
-class GameList(generics.ListCreateAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+# class GameList(generics.ListCreateAPIView):
+#     queryset = Game.objects.all()
+#     serializer_class = GameSerializer
 
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+# class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Game.objects.all()
+#     serializer_class = GameSerializer
 
 def mock_login(request):
     return JsonResponse({'loggedIn':True, 'username': 'mock_user'})

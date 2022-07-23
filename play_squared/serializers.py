@@ -7,14 +7,14 @@ class GameRecommendationSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('pk','uuid', 'user_string', 'game_name', 'description' )
     
 class ScoreSerializer(serializers.HyperlinkedModelSerializer):
-    game = serializers.HyperlinkedRelatedField(
-        view_name='game_detail',
+    game = serializers.StringRelatedField (
+        
         many=False,
-        read_only=True
+        
     )
     class Meta:
         model = Score
-        fields = ('pk', 'game', 'amount', 'date')
+        fields = ('game','pk', 'amount', 'user_string')
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     # game = serializers.HyperlinkedIdentityField(
