@@ -1,27 +1,47 @@
 from rest_framework import serializers
-from .models import GameRecommendation, Score, Game
+from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import GameRecommendation, Score
+
+UserModel = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+
+  password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+
+  def create(self, validated_data):
+
+    user = UserModel.objects.create(
+      username=validated_data['username'],
+      password=validated_data['password']
+    )
+
+    return user
+
+
+  class Meta:
+    model = UserModel
+    fields = ('id', 'username', "password")
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+
+        token['username'] = user.username
+        return token
 
 class GameRecommendationSerializer(serializers.HyperlinkedModelSerializer):
+    author = UserSerializer(many=False, read_only=True)
     class Meta:
         model = GameRecommendation
-        fields = ('pk','uuid', 'user_string', 'game_name', 'description' )
+        fields = ('id', 'author', 'game_name', 'description' )
     
 class ScoreSerializer(serializers.HyperlinkedModelSerializer):
-    game = serializers.StringRelatedField (
-        
-        many=False,
-        
-    )
+    author = UserSerializer(many=False, read_only=True)
     class Meta:
         model = Score
-        fields = ('game','pk', 'amount', 'user_string')
+        fields = ('id', 'game', 'amount', 'author', 'board')
 
-class GameSerializer(serializers.HyperlinkedModelSerializer):
-    # game = serializers.HyperlinkedIdentityField(
-    #     view_name='tail',
-    #     many=True,
-    #     read_only=True
-    # )
-    class Meta:
-        model = Game
-        fields = [('name')]
