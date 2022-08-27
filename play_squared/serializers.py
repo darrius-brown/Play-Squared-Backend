@@ -1,10 +1,11 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import GameRecommendation, Score
 
-UserModel = get_user_model()
+UserModel = User
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -12,13 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
 
-    user = UserModel.objects.create(
+    user = UserModel.objects.create_user(
       username=validated_data['username'],
       password=validated_data['password']
     )
 
     return user
-
 
   class Meta:
     model = UserModel
