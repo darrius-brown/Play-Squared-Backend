@@ -34,14 +34,18 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 class GameRecommendationSerializer(serializers.HyperlinkedModelSerializer):
-    author = UserSerializer(many=False, read_only=True)
+    author = serializers.ReadOnlyField(
+        source='author.username'
+    )
     class Meta:
         model = GameRecommendation
         fields = ('id', 'author', 'game_name', 'description' )
     
 class ScoreSerializer(serializers.HyperlinkedModelSerializer):
-    author = UserSerializer(many=False, read_only=True)
+    author = serializers.ReadOnlyField(
+        source='author.username'
+    )
     class Meta:
         model = Score
-        fields = ('id', 'game', 'amount', 'author', 'board')
+        fields = ('id', 'game', 'amount', 'board', 'author')
 

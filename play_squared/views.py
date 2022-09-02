@@ -1,7 +1,7 @@
 from .models import GameRecommendation, Score
 from django.db.models.functions import Cast
 from rest_framework import generics, permissions
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, logout, login
 from .serializers import GameRecommendationSerializer, ScoreSerializer, UserSerializer
 
 class CreateUser(generics.CreateAPIView):
@@ -14,11 +14,15 @@ class ScoreList(generics.ListCreateAPIView):
     queryset = Score.objects.extra(select={'score': 'CAST(amount AS INTEGER)'}).order_by('-score')[:10]
     serializer_class = ScoreSerializer
     permission_classes = [permissions.IsAuthenticated]
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 class GameRecommendationList(generics.ListCreateAPIView):
   serializer_class = GameRecommendationSerializer
   queryset = GameRecommendation.objects.all()
-  permission_classes = [permissions.IsAuthenticated] 
+  permission_classes = [permissions.IsAuthenticated]
+  def perform_create(self, serializer):
+        serializer.save(author=self.request.user) 
 
 class GameRecommendationDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = GameRecommendationSerializer
