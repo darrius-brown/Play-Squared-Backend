@@ -1,0 +1,1 @@
+web: gunicorn play_squared.wsgi
