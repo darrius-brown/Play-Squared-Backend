@@ -1,1 +1,1 @@
-web: gunicorn play_squared.wsgi
+web: gunicorn play_squared_django.wsgi
